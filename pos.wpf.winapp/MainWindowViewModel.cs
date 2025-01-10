@@ -25,6 +25,7 @@ namespace pos.wpf.winapp
 
             ChangeOrderStatusCommand = new AsyncRelayCommand<Order>(async order => await ChangeOrderStatus(order));
             StartServer();
+            StartLogServer();
         }
 
         public IAsyncRelayCommand<Order> ChangeOrderStatusCommand { get; }
@@ -52,6 +53,24 @@ namespace pos.wpf.winapp
             }
         }
 
+        private async void StartLogServer()
+        {
+            while (true)
+            {
+                using (var pipeServer = new NamedPipeServerStream("LogPipe", PipeDirection.In))
+                {
+                    await Task.Run(() => pipeServer.WaitForConnection());
+
+                    using (var reader = new StreamReader(pipeServer))
+                    {
+                        string logData = await reader.ReadToEndAsync();
+                        await SendLogDataToWorker(logData);
+                    }
+                }
+            }
+        }
+
+
         private void UpdateOrderStatus(Order newOrder)
         {
             if (newOrder.TableNumber > 0 && newOrder.TableNumber <= _tableOrders.Length)
@@ -62,10 +81,10 @@ namespace pos.wpf.winapp
                 {
                     orders.Add(newOrder);
                 }
-                //else
-                //{
-                //    existingOrder.Status = newOrder.Status;
-                //}
+                else if(existingOrder.Status.Equals("완료"))
+                {
+                    existingOrder.Status = newOrder.Status;
+                }
             }
         }
 
@@ -90,5 +109,19 @@ namespace pos.wpf.winapp
                 }
             }
         }
+
+        private async Task SendLogDataToWorker(string logData)
+        {
+            using (var pipeClient = new NamedPipeClientStream(".", "ProcLogPipe", PipeDirection.Out))
+            {
+                await pipeClient.ConnectAsync();
+
+                using (var writer = new StreamWriter(pipeClient))
+                {
+                    await writer.WriteAsync(logData);
+                }
+            }
+        }
+
     }
 }

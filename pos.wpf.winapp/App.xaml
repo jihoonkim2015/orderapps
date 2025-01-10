@@ -5,6 +5,6 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <!-- 테이블 수를 환경변수로 정의 -->
-        <sys:Int32 x:Key="TableCount">4</sys:Int32>
+        <sys:Int32 x:Key="TableCount">10</sys:Int32>
     </Application.Resources>
 </Application>

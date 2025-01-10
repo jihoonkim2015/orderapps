@@ -16,6 +16,7 @@ namespace pos.wpf.worker
     {
         private readonly ILogger<Worker> _logger;
         private readonly IMongoCollection<Order> _orderCollection;
+        private readonly IMongoCollection<Log> _logCollection;
 
         public Worker(ILogger<Worker> logger)
         {
@@ -23,6 +24,8 @@ namespace pos.wpf.worker
             var client = new MongoClient("mongodb://localhost:27017");
             var database = client.GetDatabase("OrderDatabase");
             _orderCollection = database.GetCollection<Order>("Orders");
+            _logCollection = database.GetCollection<Log>("Logs");
+
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -30,6 +33,7 @@ namespace pos.wpf.worker
             while (!stoppingToken.IsCancellationRequested)
             {
                 await ListenForOrders(stoppingToken);
+                await ListenForLogs(stoppingToken);
             }
         }
 
@@ -49,6 +53,23 @@ namespace pos.wpf.worker
             }
         }
 
+        private async Task ListenForLogs(CancellationToken stoppingToken)
+        {
+            using (var pipeServer = new NamedPipeServerStream("ProcLogPipe", PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous))
+            {
+                await pipeServer.WaitForConnectionAsync(stoppingToken);
+
+                using (var reader = new StreamReader(pipeServer))
+                {
+                    var logData = await reader.ReadToEndAsync();
+                    var log = JsonSerializer.Deserialize<Log>(logData);
+                    await SaveLog(log);
+                    _logger.LogInformation("Log received and saved to database: {Log}", log);
+                }
+            }
+        }
+
+
         private async Task SaveOrder(Order order)
         {
             var existingOrder = await _orderCollection.Find(o => o.OrderId == order.OrderId).FirstOrDefaultAsync();
@@ -63,6 +84,12 @@ namespace pos.wpf.worker
                 await _orderCollection.UpdateOneAsync(filter, update);
             }
         }
+
+        private async Task SaveLog(Log log)
+        {
+            await _logCollection.InsertOneAsync(log);
+        }
+
     }
 
     public class Order
@@ -76,4 +103,12 @@ namespace pos.wpf.worker
         public DateTime OrderDate { get; set; }
         public string Status { get; set; }
     }
+
+    public class Log
+    {
+        public ObjectId Id { get; set; }
+        public string LogData { get; set; }
+        public DateTime LogDate { get; set; }
+    }
+
 }
