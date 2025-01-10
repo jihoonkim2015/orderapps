@@ -1,0 +1,9 @@
+.svn/
+.vs/
+packages/
+bin/
+obj/
+Debug/
+Ever.WebApi.zip
+ProvServer.DbApps
+ProvServer.HttpSerConsole

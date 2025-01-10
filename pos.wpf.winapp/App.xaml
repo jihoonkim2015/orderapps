@@ -1,0 +1,10 @@
+﻿<Application x:Class="pos.wpf.winapp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- 테이블 수를 환경변수로 정의 -->
+        <sys:Int32 x:Key="TableCount">4</sys:Int32>
+    </Application.Resources>
+</Application>
