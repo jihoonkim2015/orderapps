@@ -15,7 +15,7 @@
     2. 주문 테이블 생성시 요청 상태를 표시하며 각 테이블별 주문 상태 정보 변경처리를 worker 프로세스 로 NamedPipe 를 통하여 전송한다.
     3. 주문 데이터 수신된 모든 요청에 대하여 worker 프로세서로 전달한다.
        
-##pos.order.worker
+## pos.order.worker
   서비스 프로세스. 주문 상태 업데이트 및 요청 로그를 Mongo DB 에 적재한다.
   
     1. 해당 프로젝트는 윈도우 서비스로 동작하다록 Windows.Hosting 을 상속받아 구현되었다.
