@@ -4,7 +4,7 @@
   주문 데이터 시뮬레이션 더미 프로젝트. 윈도우 콘솔 어플리케이션 이며 메인 윈도우 어플리케이션 실행시 주문 요청을 시작한다.
     1. 주문 테이블은 총 10개 기준으로 하며 주문 주기는 1 ~ 20 초로 랜덤 하게 요청된다.
     2. 주문순서는 1 ~ 10 까지 순차적으로 요청되며 Order Model 에 주문 상태 및 테이블 번호, 주문번호 등의 속성을 가진다. 주문번호가 10번테이블을 초과할경우 다시 1번 테이블부터 주문 요청을 처리한다.
-    3. 주문 데이터는 NapmedPipe 를 통하여 메인 윈도우 어플리케이션 으로 전송한다.
+    3. 주문 데이터는 NapmedPipe 를 통하여 메인 윈도우 어플리케이션 으로 전송한다.</br>
 - pos.wpf.winapp
   메인 윈도우 어플리케이션. 주문 더미로부터 주문 요청을 받아 UI 에  내용을 출력하며 상태 정보 업데이트를 서비스 프로세스 측으로 요청하여 처리한다.
   본 프로젝트는 .Net 8.0 WPF 어플리케이션으로 동작하며 MVVM 패턴및 DI 방식을 사용하여 구현되었다. MVVM 패턴은 CommunityToolkit.Mvvm 패키키지를 활용, DI 방식은 CommunityToolkit.Mvvm.DependencyInjection 을 이용하여 앱 시작시 ServiceCollection 에 MainWindowsViewModel 을 Singleton 으로 레지스트리 하고 ObserverbleObject 를 상속받아 구현하였다.
