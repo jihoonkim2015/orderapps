@@ -30,4 +30,12 @@ https://github.com/user-attachments/assets/b2cb2e63-6944-4172-bf6b-b11ef3bcd2ad
     2. 서비스 실행시 MongoDB Context 객체를 Singleton 으로 등록하고 해당 인스턴스를 사용하며 DB 연결정보는 workersettings.json 설정파일에 작성되었다.
     3. winapp 을 통하여 전달된 주문 데이터를 MongoDB - OrderDatabase - Orders 컬렉션에 적재 및 상태 정보를 업데이트 한다.
     4. winapp 을 통하여 전달된 로그 데이터를 MongoDB - OrderDatabse - Logs 컬렉션에 적재한다.
+
+### pos.order.worker.tests
+  서비스 프로세스 테스트. NUnit.Framework 를 이용한 WorkerTests 클래스를 생성하였다.
+  
+    1. 주문 데이터 전송  ListenForOrders_ShouldSaveOrder 메서드로 테스트.
+    2. 로그 기능 ListenForLogs_ShouldSaveLog 메서드로 테스트.
+    3. 각 테스트 기능의 실행/디버깅은 Visual Studio 2022 테스트 탐색기를 통하여 단위 테스트를 진행하였다.
+    4. 테스트 실행전 pos.order.worker 서비스가 동작 중이어야 한다.
  
