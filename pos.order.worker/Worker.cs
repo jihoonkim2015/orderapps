@@ -16,12 +16,12 @@ namespace pos.wpf.worker
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly MongoDbContext _dbContext;
+        private readonly IMongoDbContext _dbContext;
         private readonly IMongoCollection<Order> _orderCollection;
         private readonly IMongoCollection<Log> _logCollection;
         private const string serviceName = "pos.wpf.worker"; // 서비스 이름
 
-        public Worker(ILogger<Worker> logger, MongoDbContext dbContext)
+        public Worker(ILogger<Worker> logger, IMongoDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -35,10 +35,10 @@ namespace pos.wpf.worker
             var logProcessTask = ListenForLogs(stoppingToken);
             var processCheckTask = CheckAndRestartProcessAsync(stoppingToken);
 
-            await Task.WhenAll(orderProcessTask, logProcessTask, processCheckTask);
+            await Task.WhenAll(new Task[] { orderProcessTask, logProcessTask, processCheckTask });
         }
 
-        private async Task ListenForOrders(CancellationToken stoppingToken)
+        public async Task ListenForOrders(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -57,7 +57,7 @@ namespace pos.wpf.worker
             }
         }
 
-        private async Task ListenForLogs(CancellationToken stoppingToken)
+        public async Task ListenForLogs(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {

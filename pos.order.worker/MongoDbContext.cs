@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace pos.wpf.worker
 {
-    public class MongoDbContext
+    public class MongoDbContext : IMongoDbContext
     {
         public IMongoDatabase Database { get; }
 

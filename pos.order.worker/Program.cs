@@ -20,7 +20,7 @@ namespace pos.wpf.worker
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
-                    services.AddSingleton<MongoDbContext>();
+                    services.AddSingleton<IMongoDbContext, MongoDbContext>();
                 })
                 .UseWindowsService();
     }
