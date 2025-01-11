@@ -12,3 +12,9 @@
     3. 주문 데이터 수신된 모든 요청에 대하여 worker 프로세서로 전달한다. 
 - pos.order.worker
   서비스 프로세스. 주문 상태 업데이트 및 요청 로그를 Mongo DB 에 적재한다.
+    1. 해당 프로젝트는 윈도우 서비스로 동작하다록 Windows.Hosting 을 상속받아 구현되었다.
+    2. 본 서비스의 기능 주문 접수 상태 등록/업데이트 및 주문 이력 조회 기능을 수행하도록 구현되었다.
+    3. 서비스 실행시 MongoDB Context 객체를 Singleton 으로 등록하고 해당 인스턴스를 사용하며 DB 연결정보는 workersettings.json 설정파일에 작성되었다.
+    4. winapp 을 통하여 전달된 주문 데이터를 MongoDB - OrderDatabase - Orders 컬렉션에 적재 및 상태 정보를 업데이트 한다.
+    5. winapp 을 통하여 전달된 로그 데이터를 MongoDB - OrderDatabse - Logs 컬렉션에 적재한다.
+ 
