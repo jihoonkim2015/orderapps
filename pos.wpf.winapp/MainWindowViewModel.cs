@@ -42,7 +42,6 @@ namespace pos.wpf.winapp
                 using (var pipeServer = new NamedPipeServerStream("OrderPipe", PipeDirection.In))
                 {
                     await Task.Run(() => pipeServer.WaitForConnection());
-
                     using (var reader = new StreamReader(pipeServer))
                     {
                         string jsonOrder = await reader.ReadToEndAsync();
@@ -81,13 +80,22 @@ namespace pos.wpf.winapp
                 {
                     orders.Add(newOrder);
                 }
-                else if(existingOrder.Status.Equals("완료"))
+                else
                 {
                     existingOrder.Status = newOrder.Status;
                 }
+                //else if(existingOrder.Status.Equals("완료"))
+                //{
+                //    existingOrder.Status = newOrder.Status;
+                //}
             }
         }
 
+        /// <summary>
+        /// UI 주문 상태 수정 처리
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
         private async Task ChangeOrderStatus(Order order)
         {
             if (order != null)

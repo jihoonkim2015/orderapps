@@ -13,9 +13,14 @@ namespace pos.wpf.worker
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    config.AddJsonFile("workersettings.json", optional: true, reloadOnChange: true);
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
+                    services.AddSingleton<MongoDbContext>();
                 })
                 .UseWindowsService();
     }
