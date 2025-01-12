@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-pos.order.worker-3ef247fc-f21d-41a0-90f5-e27704ba4cc6</UserSecretsId>
+    <BaseOutputPath>..\bin\pos.order.worker</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
