@@ -1,11 +1,12 @@
 # 주문서 처리 예제 프로그램
-## 본 프로그램을 실행하기 위하여 아래의 세가지 프로그램이 구동되어야 한다.
 
 ### 주문 처리 화면 캡처
 https://github.com/user-attachments/assets/ec920ea0-3785-49ee-9fc7-39e05574482b
 
 ### 서비스 테스트 화면 캡처
 https://github.com/user-attachments/assets/b2cb2e63-6944-4172-bf6b-b11ef3bcd2ad
+
+## 본 프로그램을 실행하기 위하여 아래의 세가지 프로그램이 구동되어야 한다.
 
 ### pos.order.dummy
   주문 데이터 시뮬레이션 더미 프로젝트. 윈도우 콘솔 어플리케이션 이며 메인 윈도우 어플리케이션 실행시 주문 요청을 시작한다.
